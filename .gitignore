@@ -1,0 +1,16 @@
+.idea/
+.iml
+.iws
+.ipr
+.swp
+.swo
+.pyc
+.pyo
+.project
+.classpath
+.settings/
+**/.vagrant/
+*.zip
+target/
+**/output/
+**/*.rs.bk
