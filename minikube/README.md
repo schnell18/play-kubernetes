@@ -48,3 +48,13 @@ You run:
 
 and minikube will launch a browser and bring you to the dashboard webui.
 
+## Access virtual host
+
+
+You run:
+
+    minikube ssh
+
+to access the remote console of the single node virtual host runs k8s cluster.
+
+

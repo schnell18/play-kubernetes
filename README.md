@@ -7,3 +7,4 @@ This is a collection mini projects to explore kubernetes.
 | sub-directory      | comment                             |
 | ------------------ | ----------------------------------- |
 | minikube           | install one-node kubernetes cluster |
+| kubectl            | install and configure kubectl       |
