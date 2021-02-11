@@ -57,4 +57,33 @@ You run:
 
 to access the remote console of the single node virtual host runs k8s cluster.
 
+## Access kubernetes using API
 
+With `kubectl proxy` running, you may access kuberenets APIs using:
+
+	curl http://localhost:8001/
+	curl http://localhost:8001/api/v1
+	curl http://localhost:8001/apis/apps/v1
+	curl http://localhost:8001/healthz
+	curl http://localhost:8001/livez
+	curl http://localhost:8001/logs
+	curl http://localhost:8001/metrics
+
+Without `kubectl proxy` running, you may access kuberenets APIs using:
+
+- Bearer Token
+- Certificates
+
+Using Bearer Token approach:
+
+    TOKEN=$(kubectl describe secret -n kube-system $(kubectl get secrets -n kube-system | grep default | cut -f1 -d ' ') | grep -E '^token' | cut -f2 -d':' | tr -d '\t' | tr -d ' ')
+    APISERVER=$(kubectl config view | grep https | grep 8443 | cut -f2- -d ':' | tr -d ' ')
+	curl -s $APISERVER/version --header "Authorization: Bearer $TOKEN" --insecure
+
+Using certificate
+
+    APISERVER=$(kubectl config view | grep https | grep 8443 | cut -f2- -d ':' | tr -d ' ')
+	CERT=/home/justin/.minikube/profiles/minikube/client.crt
+	KEY=/home/justin/.minikube/profiles/minikube/client.key
+	curl -s $APISERVER --cert $CERT --key $KEY --insecure
+	curl -s $APISERVER/version --cert $CERT --key $KEY --insecure
