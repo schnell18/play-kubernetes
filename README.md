@@ -10,3 +10,4 @@ This is a collection mini projects to explore kubernetes.
 | kubectl            | install and configure kubectl                       |
 | aaa                | authentication/authorization and admission control  |
 | simple-app-deploy  | simple app deployment                               |
+| storage            | persistent volume and persistent volume claim       |
