@@ -62,7 +62,8 @@ is started.
 Say, you have a service named `redis-master`, you can access the
 service by using environment variable `REDIS_MASTER_SERVICE_HOST`.
 
-You can also use `redis-master` as hostname within the same namespace. The general form of the FQDN is something like:
+You can also use `redis-master` as hostname within the same namespace. The
+general form of the FQDN is something like:
 
     <service-name>.<namespace>.svc.<cluster-name>
 

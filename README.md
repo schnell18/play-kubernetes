@@ -12,3 +12,4 @@ This is a collection mini projects to explore kubernetes.
 | simple-app-deploy  | simple app deployment                               |
 | storage            | persistent volume and persistent volume claim       |
 | config             | configMap and secret                                |
+| ingress            | explore ingress, layer 7 routing                    |

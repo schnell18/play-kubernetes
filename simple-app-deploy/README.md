@@ -50,77 +50,77 @@ nginx:
 Then you expose the web server with two methods.
 The first method creates the service by using a yaml file:
 
-  apiVersion: v1
-  kind: Service
-  metadata:
-    name: web-service
-    labels:
-      run: web-service
-  spec:
-    type: NodePort
-    ports:
-    - port: 80
-      protocol: TCP
-    selector:
-      app: nginx
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: web-service
+      labels:
+        run: web-service
+    spec:
+      type: NodePort
+      ports:
+      - port: 80
+        protocol: TCP
+      selector:
+        app: nginx
 
 The second method works only if a deployment exists for the underlying service.
 You use `kubectl expose` to expose the nginx in this example by using:
 
-  kubectl expose deployment webserver --name=web-service --type=NodePort
+    kubectl expose deployment webserver --name=web-service --type=NodePort
 
 You can get the node port by typing command as follows:
 
-  kubectl get services
+    kubectl get services
 
-  NAME          TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
-  kubernetes    ClusterIP   10.96.0.1      <none>        443/TCP        2d16h
-  web-service   NodePort    10.107.55.66   <none>        80:30048/TCP   13m
+    NAME          TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
+    kubernetes    ClusterIP   10.96.0.1      <none>        443/TCP        2d16h
+    web-service   NodePort    10.107.55.66   <none>        80:30048/TCP   13m
 
 Or you can use `kubectl describe` command if you know the name of service:
 
-  kubectl describe service web-service
+    kubectl describe service web-service
 
-  Name:                     web-service
-  Namespace:                default
-  Labels:                   app=nginx
-                            run=web-service
-  Annotations:              <none>
-  Selector:                 app=nginx
-  Type:                     NodePort
-  IP:                       10.107.55.66
-  Port:                     <unset>  80/TCP
-  TargetPort:               80/TCP
-  NodePort:                 <unset>  30048/TCP
-  Endpoints:                172.17.0.6:80,172.17.0.7:80,172.17.0.8:80
-  Session Affinity:         None
-  External Traffic Policy:  Cluster
-  Events:                   <none>
+    Name:                     web-service
+    Namespace:                default
+    Labels:                   app=nginx
+                              run=web-service
+    Annotations:              <none>
+    Selector:                 app=nginx
+    Type:                     NodePort
+    IP:                       10.107.55.66
+    Port:                     <unset>  80/TCP
+    TargetPort:               80/TCP
+    NodePort:                 <unset>  30048/TCP
+    Endpoints:                172.17.0.6:80,172.17.0.7:80,172.17.0.8:80
+    Session Affinity:         None
+    External Traffic Policy:  Cluster
+    Events:                   <none>
 
 Search for `NodePort` for the port you will connect the browser to. In this case,
 it is 30048. You need get the IP address of the node. In the case of minikube,
 you type:
 
-  minikube ip
+    minikube ip
 
-  192.168.99.104
+    192.168.99.104
 
 It is `192.168.99.104` in this case. So you connect your browser to:
 
-  http://192.168.99.104:30048/
+    http://192.168.99.104:30048/
 
 To access the default nginx web page.
 
 You may access the web page in one go if you are using minikube:
 
-  minikube service web-service
+    minikube service web-service
 
-  |-----------|-------------|-------------|-----------------------------|
-  | NAMESPACE |    NAME     | TARGET PORT |             URL             |
-  |-----------|-------------|-------------|-----------------------------|
-  | default   | web-service |          80 | http://192.168.99.104:30048 |
-  |-----------|-------------|-------------|-----------------------------|
-  🎉  正通过默认浏览器打开服务 default/web-service...
+    |-----------|-------------|-------------|-----------------------------|
+    | NAMESPACE |    NAME     | TARGET PORT |             URL             |
+    |-----------|-------------|-------------|-----------------------------|
+    | default   | web-service |          80 | http://192.168.99.104:30048 |
+    |-----------|-------------|-------------|-----------------------------|
+    🎉  正通过默认浏览器打开服务 default/web-service...
 
 You may substitute `web-service` with your service name as you see fit.
 
@@ -135,58 +135,58 @@ To specify liveness probe, you have three options:
 
 Liveness probe using command example:
 
-  apiVersion: v1
-  kind: Pod
-  metadata:
-    labels:
-      test: liveness
-    name: liveness-exec
-  spec:
-    containers:
-    - name: liveness
-      image: busybox:1.32.1
-      args:
-      - /bin/sh
-      - -c
-      - touch /tmp/healthy; sleep 30; rm -rf /tmp/healthy; sleep 600
-      livenessProbe:
-        exec:
-          command:
-          - cat
-          - /tmp/healthy
-        initialDelaySeconds: 3
-        failureThreshold: 1
-        periodSeconds: 5
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      labels:
+        test: liveness
+      name: liveness-exec
+    spec:
+      containers:
+      - name: liveness
+        image: busybox:1.32.1
+        args:
+        - /bin/sh
+        - -c
+        - touch /tmp/healthy; sleep 30; rm -rf /tmp/healthy; sleep 600
+        livenessProbe:
+          exec:
+            command:
+            - cat
+            - /tmp/healthy
+          initialDelaySeconds: 3
+          failureThreshold: 1
+          periodSeconds: 5
 
 If command exits with code 0, then the pod is healthy. Otherwise, it is
 unhealthy and kubernetes will attempt to restart it.
 
 Liveness probe using http example:
 
-  ...
-      livenessProbe:
-        httpGet:
-          path: /healthz
-          port: 8080
-          httpHeaders:
-          - name: X-Custom-Header
-            value: Awesome
-        initialDelaySeconds: 3
-        periodSeconds: 3
-  ...
+    ...
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+            httpHeaders:
+            - name: X-Custom-Header
+              value: Awesome
+          initialDelaySeconds: 3
+          periodSeconds: 3
+    ...
 
 If the probe returns http code 2xx, then the pod is healthy. Otherwise, it is
 unhealthy and kubernetes will attempt to restart it.
 
 Liveness probe using tcp example:
 
-  ...
-      livenessProbe:
-        tcpSocket:
-          port: 8080
-        initialDelaySeconds: 15
-        periodSeconds: 20
-  ...
+    ...
+        livenessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 20
+    ...
 
 Kubernetes try to open a TCP connection to the pod on the specified pod. If the
 connection is established successfully, then the pod is healthy. Otherwise, it
