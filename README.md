@@ -13,3 +13,4 @@ This is a collection mini projects to explore kubernetes.
 | storage            | persistent volume and persistent volume claim       |
 | config             | configMap and secret                                |
 | ingress            | explore ingress, layer 7 routing                    |
+| advance            | Various topics on quota, daemonset, crd etc         |
