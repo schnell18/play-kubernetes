@@ -9,3 +9,4 @@ This is a collection mini projects to explore kubernetes.
 | minikube           | install one-node kubernetes cluster                 |
 | kubectl            | install and configure kubectl                       |
 | aaa                | authentication/authorization and admission control  |
+| simple-app-deploy  | simple app deployment                               |
