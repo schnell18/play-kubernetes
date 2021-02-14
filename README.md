@@ -11,3 +11,4 @@ This is a collection mini projects to explore kubernetes.
 | aaa                | authentication/authorization and admission control  |
 | simple-app-deploy  | simple app deployment                               |
 | storage            | persistent volume and persistent volume claim       |
+| config             | configMap and secret                                |
