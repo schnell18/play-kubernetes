@@ -36,5 +36,12 @@ repository prefix to `k8s.gcr.io/ingress-nginx`.
 For the second image, change the repository prefix to `docker.io/jettech`.
 Then you should be able to pull the image successfully.
 
+Usually kubernetes will retry image pull when a pod is in `ImagePullBackOff`
+status. However, if you don't want to wait, you may trigger image pull manually
+by type:
+
+	kubectl get pod PODNAME -n kube-system -o yaml | kubectl replace --force -f -
+
+Replace `PODNAME` with the problematic pod name.
 
 [1]: https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.40.2/deploy/static/provider/baremetal/deploy.yaml

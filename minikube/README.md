@@ -33,9 +33,9 @@ On Mac OSX, you type:
 You run:
 
     minikube start \
-        --kubernetes-version=v1.19.2 \
+        --kubernetes-version=v1.20.2 \
         --image-mirror-country=cn\
-        --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers \
+        --image-repository=registry.aliyuncs.com/google_containers \
         --driver=virtualbox
 
 Substitute the kubernetes version as you see fit.
