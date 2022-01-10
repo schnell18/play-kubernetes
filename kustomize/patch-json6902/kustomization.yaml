@@ -1,0 +1,15 @@
+commonAnnotations:
+  oncallPager: 800-555-1212
+resources:
+- "deployment.yaml"
+images:
+- name: nginx
+  newName: my.image.registry/nginx
+  newTag: 1.8.0
+patchesJson6902:
+  - target:
+      group: apps
+      kind: Deployment
+      name: my-nginx 
+      version: v1 
+    path: patch.yaml

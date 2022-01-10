@@ -1,0 +1,3 @@
+FOO=Bar
+PATH=$PATH:/home/go/bin
+JAVA_HOME=/jre

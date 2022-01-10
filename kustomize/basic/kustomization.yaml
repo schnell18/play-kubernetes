@@ -1,0 +1,22 @@
+resources:
+- "deployment.yaml"
+configMapGenerator:
+- name: configmap01
+  files:
+  - application.properties
+- name: configmap02
+  envs:
+  - .envs
+- name: configmap03
+  literals:
+  - ROCKET_HOME=/mars/startek 
+  - LOG_LEVEL=info
+secretGenerator:
+- name: secret01
+  files:
+  - password.txt
+generatorOptions:
+  labels:
+    type: generated
+  annotations:
+    note: generated

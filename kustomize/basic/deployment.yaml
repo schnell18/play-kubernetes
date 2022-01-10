@@ -1,0 +1,46 @@
+# https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app 
+  labels:
+    app: my-app 
+spec:
+  selector:
+    matchLabels:
+      app: my-app
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: my-app 
+    spec:
+      containers:
+      - name: my-app 
+        image:  my-app:latest
+        imagePullPolicy: IfNotPresent
+        volueMounts:
+        - name: password
+          mountPath: /secrets
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 500m
+            memory: 500Mi
+
+      volumes:
+        - name: config
+          configMap:
+            name: configmap01
+        - name: password
+          secret:
+            secretName: secret01
+      restartPolicy: Always
+
